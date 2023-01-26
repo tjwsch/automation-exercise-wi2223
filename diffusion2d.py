@@ -1,6 +1,5 @@
 """
 Solving the two-dimensional diffusion equation
-
 Example acquired from https://scipython.com/book/chapter-7-matplotlib/examples/the-two-dimensional-diffusion-equation/
 """
 

@@ -43,7 +43,7 @@ jobs:
       - name: "Install coverage"
         run: pip install coverage
       - name: "Download .coverage"
-      - uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: coverage_file
       - name: "coverage report"
@@ -51,7 +51,7 @@ jobs:
       - name: "create XML with coverage"
         run: coverage xml
       - name: "upload coverage.xml as artifact"
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: coveragexml_file
           path: coverage.xml

@@ -26,7 +26,7 @@ jobs:
       - name: "Run test using coverage"
         run: coverage run -m pytest
       - name: "upload coverage as artifact"
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: coverage_file
           path: .coverage

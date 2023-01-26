@@ -1,0 +1,58 @@
+name: Testing workflow
+
+on: [push]
+
+jobs:
+  style_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+      - name: "Install style checker"
+        run: pip install black
+      - name: "Run style check"
+        run: black --check .
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3 
+        with:
+          python-version: '3.8'
+      - name: "Install coverage, numpy, matplotlib and pytest"
+        run: pip install coverage pytest numpy matplotlib
+      - name: "Run test using coverage"
+        run: coverage run -m pytest
+      - name: "upload coverage as artifact"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage_file
+          path: .coverage
+          retention-days: 1
+          if-no-files-found: error
+  coverage_report:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3  
+        with:
+          python-version: '3.8'
+      - name: "Install coverage"
+        run: pip install coverage
+      - name: "Download .coverage"
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage_file
+      - name: "coverage report"
+        run: coverage report
+      - name: "create XML with coverage"
+        run: coverage xml
+      - name: "upload coverage.xml as artifact"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coveragexml_file
+          path: coverage.xml
+          retention-days: 14
